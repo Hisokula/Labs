@@ -10,7 +10,7 @@ namespace esp
         std::cout << str2 << std::endl;
     }
 
-    void FlagSort(std::string* str1, std::string* str2)                              // it works
+    void FlagSort(std::string* str1, std::string* str2)                             
     {
         if ((*str1).length() < (*str2).length())
         {
@@ -18,68 +18,114 @@ namespace esp
         }
         if ((*str1).length() != (*str2).length())
         {
-            while ((*str1).length() != (*str2).length())
+            while ((*str2).length() != (*str1).length())
             {
                 *str2 = "0" + *str2;
             }
         }
     }
 
-    //__________________________________________________________________________________________________________________________// it is not
 
-    void Sum(std::string str1, std::string str2, std::string sum)
+    std::string Sum(std::string str1, std::string str2)
     {
-        std::string StrokaSum[2000];
-
-        for (int s = 0; s < 2000; s++)
+        std::string StrokaSum = "0" + str1;
+        for (int i = 0; i < StrokaSum.length(); i++)
         {
-            StrokaSum[s] = "";
+            StrokaSum[i] = '0';
         }
 
         bool f = 0;
         int help = 0;
 
-        for (int i = 0; i < str1.length(); i++)
+        for (int i = 1; i < str1.length() + 1; i++)
         {
-            int c1 = int(str1[str1.length() - i]);
-            int c2 = int(str2[str2.length() - i]);
+            int c1 = int(str1[str1.length() - i]) - 48;
+            int c2 = int(str2[str2.length() - i]) - 48;
+
+            std::cout << "-> " << c1 << "\t" << c2 << std::endl;
 
             int a = 0;
 
-            if (c1 + c2 > 9)
+            if (c1 + c2 + help > 9)
             {
-                bool f = 1;
-                a = (c1 + c2) - 10 + help;
-                help += 1; ////////////////////
+                f = 1;
+                a = (c1 + c2 + help) % 10;
+                help = (c1 + c2 + help) / 10;
+
             }
 
             if (f == 1)
             {
-                StrokaSum[i] = std::to_string(a);
+                StrokaSum[str1.length() - i + 1] = char(a) + 48;
+
             }
             else
             {
-                int c = c1 + c2;
-                StrokaSum[i] = std::to_string(a);
+                int c = c1 + c2 + help;
                 help = 0;
+                StrokaSum[str1.length() - i + 1] = char(c) + 48;
 
+ 
             }
 
-            bool f = 0;
+            f = 0;
 
         }
-        for (int s = 0; s < str1.length() * 2; s++)
-        {
-            std::cout << StrokaSum[s];
-        }
+
+        std::cout << StrokaSum << std::endl;
+        return StrokaSum;
+
     }
-    //__________________________________________________________________________________________________________________________//
 
-    void OutStrMas(std::string sum)
+    void Mult(std::string str1, std::string str2)
     {
-        for (int i = 0; sum.length(); i++)
+        std::string StrokaMult = str1 + str1;
+
+        for (int i = 0; i < str1.length() * 2; i++)
         {
-            std::cout << sum[i];
+            StrokaMult[i] = '0';
         }
+
+        std::string Step = StrokaMult;
+
+        bool flag = 0;
+        int helper = 0;
+
+        for (int i = 0; i < str1.length(); i++)
+        {
+            for (int j = 0; j < str2.length(); j++)
+            {
+                int c1 = int(str1[str1.length() - i - 1]) - 48;
+                int c2 = int(str2[str2.length() - j - 1]) - 48;
+
+                int num = 0;
+
+                if (c1 * c2 + helper > 9)
+                {
+                    flag = 1;
+                    num = (c1 * c2) % 10 + helper;
+                    helper += 1;
+                }
+
+                if (flag == 1)
+                {
+                    Step[str1.length() - i + 1] = char(num + 48);
+                }
+                else
+                {
+                    int c = c1 * c2;
+                    Step[str1.length() - i + 1] = char(c + 48);
+                    helper = helper % 10;
+                }
+
+                FlagSort(&StrokaMult, &Step);
+                StrokaMult = Sum(StrokaMult, Step);
+                StrokaMult.erase(StrokaMult.find("0"), 1);
+
+                flag = 0;
+            }
+        }
+        std::cout << StrokaMult << std::endl;
     }
+
 }
