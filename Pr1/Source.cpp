@@ -10,21 +10,20 @@ namespace esp
         std::cout << str2 << std::endl;
     }
 
-    void FlagSort(std::string* str1, std::string* str2)                             
+    void FlagSort(std::string* str1, std::string* str2)
     {
         if ((*str1).length() < (*str2).length())
         {
             std::swap(*str1, *str2);
         }
-        if ((*str1).length() != (*str2).length())
+        if ((*str1).length() > (*str2).length())
         {
-            while ((*str2).length() != (*str1).length())
+            while ((*str2).length() < (*str1).length())
             {
                 *str2 = "0" + *str2;
             }
         }
     }
-
 
     std::string Sum(std::string str1, std::string str2)
     {
@@ -34,7 +33,7 @@ namespace esp
             StrokaSum[i] = '0';
         }
 
-        bool f = 0;
+        bool flag = 0;
         int help = 0;
 
         for (int i = 1; i < str1.length() + 1; i++)
@@ -42,137 +41,95 @@ namespace esp
             int c1 = int(str1[str1.length() - i]) - 48;
             int c2 = int(str2[str2.length() - i]) - 48;
 
-            std::cout << "-> " << c1 << "\t" << c2 << std::endl;
+            //std::cout << "-> " << c1 << "\t" << c2 << std::endl;
 
             int a = 0;
 
             if (c1 + c2 + help > 9)
             {
-                f = 1;
-                a = c1 + c2 - 10 + help;
+                flag = 1;
+                a = (c1 + c2) - 10 + help;
                 help = 0;
             }
 
-            if (f == 1)
+            if (flag == 1)
             {
-                StrokaSum[str1.length() - i + 1] = char(a) + 48;
-                help++;
-
+                StrokaSum[str1.length() - i + 1] = char(a + 48);
+                help += 1;
             }
-            else
+            else if (flag == 0)
             {
-                int c = c1 + c2 + help;
-                StrokaSum[str1.length() - i + 1] = char(c) + 48;
+                int c = c1 + c2;
+                StrokaSum[str1.length() - i + 1] = char(c + 48) + help;
                 help = 0;
- 
+
             }
 
-            f = 0;
+            flag = 0;
 
         }
+
         if (help != 0)
         {
-            StrokaSum[0] = char(int(StrokaSum[0] + help));
+            StrokaSum[0] = char(int(StrokaSum[0]) + help);
         }
-        std::cout << StrokaSum << std::endl;
-        return StrokaSum;
 
+        return StrokaSum;
+        //std::cout << StrokaSum << std::endl;
     }
+
+    //_________________________________________________________________________________________________________________________herewegoagain
 
     std::string Mult(std::string str1, std::string str2)
     {
+        std::string Stroka = str1 + str2;
 
-        std::string StrokaMult = "";
-        while (StrokaMult.length() < str1.length() + str2.length()) 
+        for (int u = 0; u < str1.length() + str2.length(); u++)
         {
-            StrokaMult += "0";
+            Stroka[u] = '0';
         }
-        std::cout << StrokaMult << std::endl;
 
-        std::string Step = StrokaMult;
-        std::string Emptyness = Step;
+        std::string Result = Stroka;
 
-        bool flag = 0;
-        int helper = 0;
+        std::string Emptyness = Result;
+
 
         for (int i = 0; i < str1.length(); i++)
         {
-            Step = Emptyness;
-
             for (int j = 0; j < str2.length(); j++)
             {
-                int c1 = int(str1[str1.length() - i - 1]) - 48;
-                int c2 = int(str2[str2.length() - j - 1]) - 48;
+                int el1 = str1[str1.length() - i - 1] - 48;
+                int el2 = str2[str2.length() - j - 1] - 48;
 
-                int num = 0;
+                int mult = el1 * el2;
 
-                if (c1 * c2 + helper > 9)
+                Stroka[Stroka.length() - j - i - 1] = char(mult % 10 + 48);
+                Stroka[Stroka.length() - j - i - 2] = char(mult / 10 + 48);
+
+
+                while (Result.length() > Stroka.length())
                 {
-                    flag = 1;
-                    num = (c1 * c2) % 10 + helper;
-                    helper = 0;
+                    Stroka = '0' + Stroka;
                 }
+                Result = Sum(Result, Stroka);
 
-                if (flag == 1)
-                {
-                    Step[str1.length() - j - i + 1] = char(num + 48);
-                    helper++;
-                }
-                else
-                {
-                    int c = c1 * c2;
-                    Step[str1.length() - j - i + 1] = char(c + 48);
-                    helper = helper / 10;
-                }
-
-                flag = 0;
-
-               
+                Stroka = Emptyness;
             }
 
-            if (helper != 0)
-            {
-                Step[str1.length() - i - 1] = char(int(Step[str1.length() - i - 1] + helper));
-            }
-
-            if (StrokaMult.length() <= Step.length())
-            {
-                while (StrokaMult.length() != Step.length())
-                {
-                    StrokaMult = "0" + StrokaMult;
-                }
-            }
-
-            //FlagSort(&Step, &StrokaMult);
-
-            /*if (StrokaMult.length() <= Step.length())
-            {
-                while (StrokaMult.length() != Step.length())
-                {
-                    StrokaMult = "0" + StrokaMult;
-                }
-            }
-            StrokaMult = Sum(Step, StrokaMult);
-
-            std::cout << "StrokaMult: ";
-
-            for (int g = 0; g < StrokaMult.length(); g++)
-            {
-                std::cout << "<->" << StrokaMult[g] << " ";
-            }
-            std::cout << std::endl;
-
-            std::cout << "Step: ";
-
-            for (int g = 0; g < StrokaMult.length(); g++)
-            {
-                std::cout << "<->" << Step[g] << " ";
-            }
-            std::cout << std::endl;*/
         }
-        //std::cout << StrokaMult << std::endl;
 
-        return StrokaMult;
+        return Result;
     }
 
+    //////////////////////////////   x y z / 0 s t
+
 }
+/*
+int el1 = str1[str1.length() - i - 1] - 48;
+int el2 = str2[str2.length() - j - 1] - 48;
+
+int mult = el1 * el2 * (pow(10, j));
+
+Stroka[Stroka.length() - j - i - 1] = char(mult % 10 + 48);
+Stroka[Stroka.length() - j - i - 2] = char(mult / 10 + 48);
+*/
