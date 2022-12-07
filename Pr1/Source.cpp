@@ -49,50 +49,56 @@ namespace esp
             if (c1 + c2 + help > 9)
             {
                 f = 1;
-                a = (c1 + c2 + help) % 10;
-                help = (c1 + c2 + help) / 10;
-
+                a = c1 + c2 - 10 + help;
+                help = 0;
             }
 
             if (f == 1)
             {
                 StrokaSum[str1.length() - i + 1] = char(a) + 48;
+                help++;
 
             }
             else
             {
                 int c = c1 + c2 + help;
-                help = 0;
                 StrokaSum[str1.length() - i + 1] = char(c) + 48;
-
+                help = 0;
  
             }
 
             f = 0;
 
         }
-
+        if (help != 0)
+        {
+            StrokaSum[0] = char(int(StrokaSum[0] + help));
+        }
         std::cout << StrokaSum << std::endl;
         return StrokaSum;
 
     }
 
-    void Mult(std::string str1, std::string str2)
+    std::string Mult(std::string str1, std::string str2)
     {
-        std::string StrokaMult = str1 + str1;
 
-        for (int i = 0; i < str1.length() * 2; i++)
+        std::string StrokaMult = "";
+        while (StrokaMult.length() < str1.length() + str2.length()) 
         {
-            StrokaMult[i] = '0';
+            StrokaMult += "0";
         }
+        std::cout << StrokaMult << std::endl;
 
         std::string Step = StrokaMult;
+        std::string Emptyness = Step;
 
         bool flag = 0;
         int helper = 0;
 
         for (int i = 0; i < str1.length(); i++)
         {
+            Step = Emptyness;
+
             for (int j = 0; j < str2.length(); j++)
             {
                 int c1 = int(str1[str1.length() - i - 1]) - 48;
@@ -104,28 +110,69 @@ namespace esp
                 {
                     flag = 1;
                     num = (c1 * c2) % 10 + helper;
-                    helper += 1;
+                    helper = 0;
                 }
 
                 if (flag == 1)
                 {
-                    Step[str1.length() - i + 1] = char(num + 48);
+                    Step[str1.length() - j - i + 1] = char(num + 48);
+                    helper++;
                 }
                 else
                 {
                     int c = c1 * c2;
-                    Step[str1.length() - i + 1] = char(c + 48);
-                    helper = helper % 10;
+                    Step[str1.length() - j - i + 1] = char(c + 48);
+                    helper = helper / 10;
                 }
 
-                FlagSort(&StrokaMult, &Step);
-                StrokaMult = Sum(StrokaMult, Step);
-                StrokaMult.erase(StrokaMult.find("0"), 1);
-
                 flag = 0;
+
+               
             }
+
+            if (helper != 0)
+            {
+                Step[str1.length() - i - 1] = char(int(Step[str1.length() - i - 1] + helper));
+            }
+
+            if (StrokaMult.length() <= Step.length())
+            {
+                while (StrokaMult.length() != Step.length())
+                {
+                    StrokaMult = "0" + StrokaMult;
+                }
+            }
+
+            //FlagSort(&Step, &StrokaMult);
+
+            /*if (StrokaMult.length() <= Step.length())
+            {
+                while (StrokaMult.length() != Step.length())
+                {
+                    StrokaMult = "0" + StrokaMult;
+                }
+            }
+            StrokaMult = Sum(Step, StrokaMult);
+
+            std::cout << "StrokaMult: ";
+
+            for (int g = 0; g < StrokaMult.length(); g++)
+            {
+                std::cout << "<->" << StrokaMult[g] << " ";
+            }
+            std::cout << std::endl;
+
+            std::cout << "Step: ";
+
+            for (int g = 0; g < StrokaMult.length(); g++)
+            {
+                std::cout << "<->" << Step[g] << " ";
+            }
+            std::cout << std::endl;*/
         }
-        std::cout << StrokaMult << std::endl;
+        //std::cout << StrokaMult << std::endl;
+
+        return StrokaMult;
     }
 
 }
