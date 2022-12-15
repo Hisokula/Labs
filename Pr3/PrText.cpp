@@ -11,6 +11,8 @@ namespace esp
     {
         std::string str;
 
+        std::string letters = "";
+
         int List[8] = {};
 
         for (int o = 0; o < 8; o++)
@@ -24,7 +26,7 @@ namespace esp
 
         int i = -1;
 
-        int schet = 0;
+
 
         std::ifstream in("input.txt", std::ios::in);
 
@@ -34,7 +36,14 @@ namespace esp
         {
             i++;
 
+            int schet = 0;
+
             in >> str;
+
+            for (int p = 0; p < str.length(); p++)
+            {
+                letters += '0';
+            }
 
             for (int t = 0; t < str.length(); t++)
             {
@@ -42,7 +51,12 @@ namespace esp
                 {
                     if ((str[t] == AlphaLIST[List[s]]) || (str[t] == Alphalist[List[s]]))
                     {
-                        schet++;
+                        if (std::count(letters.begin(), letters.end(), str[t]) == 0)
+                        {
+                            letters[schet] = str[t];
+                            schet++;
+                        }
+
                     }
                 }
 
@@ -60,11 +74,38 @@ namespace esp
                         }
                     }
                 }
+
+                /*for (int t = 0; t < letters.length(); t++)
+                {
+                    for (int p = 0; p < letters.length(); p++)
+                    {
+                        
+                    }
+                }
+                */
+                std::string outp;
+
+                outp = str + "(";
+
+                for (int g = 0; g < schet; g++)
+                {
+                    outp = outp + letters[g] + "," + " ";
+                }
+
+                outp = outp + ')' + " ";
+                outp[str.length() + schet*3 - 1] = ' ';
+                schet = 0;
+
+                out << outp;
+                outp = "";
+            }
+            else
+            {
+                out << str << " ";
             }
 
-            schet = 0;
 
-            out << str << " ";
+            letters = "";
         }
     }
 
@@ -115,7 +156,7 @@ namespace esp
             Chetchik[i] = chet;
             MaxCount[i][0] = ml;
 
-            LetterCount[chet] = - LetterCount[chet];
+            LetterCount[chet] = -LetterCount[chet];
             ml = -1;
         }
 
@@ -153,13 +194,13 @@ int main()
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     setlocale(LC_ALL, "RUSSIAN");
-    
+
     std::string a;
     a = esp::Input();
 
     a = esp::Process(a);
 
-} 
+}
 
 // Русские буквы в ASCII
 // Заглавные 128-159(от А до Я без Ё)
