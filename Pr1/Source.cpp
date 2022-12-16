@@ -124,12 +124,3 @@ namespace esp
     //////////////////////////////   x y z / 0 s t
 
 }
-/*
-int el1 = str1[str1.length() - i - 1] - 48;
-int el2 = str2[str2.length() - j - 1] - 48;
-
-int mult = el1 * el2 * (pow(10, j));
-
-Stroka[Stroka.length() - j - i - 1] = char(mult % 10 + 48);
-Stroka[Stroka.length() - j - i - 2] = char(mult / 10 + 48);
-*/

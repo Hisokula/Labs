@@ -12,9 +12,10 @@ int main()
 
     esp::FlagSort(&str1, &str2);
 
-    std::cout << "Sum: " << esp::Sum(str1, str2) << std::endl;
+    std::string sum = esp::Sum(str1, str2);
+
+    std::cout << "Sum: " << sum << std::endl;
 
     std::cout << "Mult: " << esp::Mult(str1, str2) << std::endl;
 
-    //esp::Output(str1, str2);
 }
