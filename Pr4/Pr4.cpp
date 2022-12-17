@@ -16,7 +16,8 @@ const int N = 5;
 int main()
 {
 	int pack[N] = {0, 12, 3, 17, 7};
-	unsigned int key = 0;
+	unsigned long long key = 0;
+
 
 
 	for (int i = 0; i < std::size(pack); i++)
@@ -30,9 +31,9 @@ int main()
 
 	for (int j = std::size(pack) - 1; j >= 0; j--)
 	{
-		int current_num = (key << (32 - N) >> (32 - N));
+		int unpacked = (key << (64 - N) >> (64 - N));
 		key = key >> 5;
-		std::cout << current_num << ' ';
+		std::cout << unpacked << ' ';
 	}
 
 }
