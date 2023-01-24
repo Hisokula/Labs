@@ -41,8 +41,6 @@ namespace esp
             int c1 = int(str1[str1.length() - i]) - 48;
             int c2 = int(str2[str2.length() - i]) - 48;
 
-            //std::cout << "-> " << c1 << "\t" << c2 << std::endl;
-
             int a = 0;
 
             if (c1 + c2 + help > 9)
@@ -75,10 +73,8 @@ namespace esp
         }
 
         return StrokaSum;
-        //std::cout << StrokaSum << std::endl;
     }
 
-    //_________________________________________________________________________________________________________________________herewegoagain
 
     std::string Mult(std::string str1, std::string str2)
     {
@@ -120,7 +116,5 @@ namespace esp
 
         return Result;
     }
-
-    //////////////////////////////   x y z / 0 s t
 
 }
