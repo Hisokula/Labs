@@ -51,24 +51,20 @@ public:
 
         Fibonacci();
 
-        bool flag;
+        int counter = -1;
 
         for (int i = 0; i < WordCount; i++)
         {
-            flag = 1;
+            counter++;
 
-            for (int j = 0; j < Message.length(); j++)
+            while (Message[counter] != ' ')
             {
-                if ((Message[j] != ' ')&&(flag==1))
+                m_Words[i] += Message[counter];
+                if (counter < Message.length())
                 {
-                    m_Words[i] += Message[j];
-
+                    counter++;
                 }
-                else if (Message[i] == ' ')
-                {
-                    flag = 0;
-                    break;
-                }
+                else break;
             }
         }
     }
