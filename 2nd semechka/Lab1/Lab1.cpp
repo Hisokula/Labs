@@ -26,7 +26,7 @@ public:
 
     void Timing()
     {
-        m_OneSymbolTime = (m_Stroka.length() / m_time);
+        m_OneSymbolTime = (float(m_time)/m_Stroka.length());
         m_t = round(m_OneSymbolTime);
     }
 
