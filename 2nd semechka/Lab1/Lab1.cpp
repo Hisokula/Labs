@@ -33,7 +33,6 @@ public:
 
 };
 
-
 int main()
 {
     std::string stroka;
@@ -78,19 +77,6 @@ int main()
             }
         }
 
-        
-        /*
-        for (int i = 0; i < SfmlAT.m_Stroka.length(); i++)
-        {
-            StrHelper += SfmlAT.m_Stroka[i];
-            TEXT.setString(StrHelper);
-            window.draw(TEXT);
-            SfmlAT.Sleep();
-            window.display();
-            window.clear(sf::Color::Black);
-        }
-        */
-
         if (k < SfmlAT.m_Stroka.length())
         {
             StrHelper += SfmlAT.m_Stroka[k];
@@ -102,11 +88,6 @@ int main()
         }
 
         k++;
-
-        //SfmlAT.Sleep();
-        //window.display();
-        //window.clear(sf::Color::Black);
-
     }
     
     
