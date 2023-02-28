@@ -9,7 +9,7 @@ void Copying(int* mas1, int* mas2)
     size_t* tmp1 = reinterpret_cast<size_t*>(mas1);
     size_t* tmp2 = reinterpret_cast<size_t*>(mas2);
 
-    for (int i = 0; i < N / 8; i++)
+    for (int i = 0; i < N / 2; i++)
     {
         *tmp1 = *tmp2;
         tmp1++;
@@ -19,7 +19,7 @@ void Copying(int* mas1, int* mas2)
     char* tmp1_2 = reinterpret_cast<char*>(mas1);
     char* tmp2_2 = reinterpret_cast<char*>(mas2);
 
-    for (int i = N - (N / 8); i < N; i++)
+    for (int i = N - (N / 2); i < N; i++)
     {
         *tmp1_2 = *tmp2_2;
         tmp1_2++;
