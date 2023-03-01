@@ -1,6 +1,6 @@
-﻿#include <iostream>
+#include <iostream>
 
-const int N = 999;
+const int N = 10;
 
 template<typename T>
 void Copying(T* mas1, T* mas2)
@@ -30,10 +30,10 @@ void Copying(T* mas1, T* mas2)
 }
 
 template<typename T>
-void Outp1(const T mas[1000])
+void Outp1(const T mas[N])
 {
     std::cout << "Mas1: ";
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < N; i++)
     {
         std::cout << mas[i] << " ";
     }
@@ -41,10 +41,10 @@ void Outp1(const T mas[1000])
 }
 
 template<typename T>
-void Outp2(const T mas[1000])
+void Outp2(const T mas[N])
 {
     std::cout << "Mas2: ";
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < N; i++)
     {
         std::cout << mas[i] << " ";
     }
@@ -60,7 +60,7 @@ int main()
     Outp1(mas1);
     Outp2(mas2);
 
-    Copying(mas1, mas2);
+    Copying(mas1, mas2); //mas1 = mas2
 
     Outp1(mas1);
     Outp2(mas2);
