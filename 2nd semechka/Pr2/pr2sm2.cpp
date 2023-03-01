@@ -26,10 +26,11 @@ void Copying(T* mas1, T* mas2)
         tmp1_2++;
         tmp2_2++;
     }
-    
+
 }
 
-void Outp1(int mas[1000])
+template<typename T>
+void Outp1(const T mas[1000])
 {
     std::cout << "Mas1: ";
     for (int i = 0; i < 10; i++)
@@ -39,7 +40,8 @@ void Outp1(int mas[1000])
     std::cout << std::endl;
 }
 
-void Outp2(int mas[1000])
+template<typename T>
+void Outp2(const T mas[1000])
 {
     std::cout << "Mas2: ";
     for (int i = 0; i < 10; i++)
