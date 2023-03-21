@@ -24,8 +24,8 @@ private:
 
 public:
 
-	friend std::ostream& operator << (std::ostream out, const String& str);
-	friend std::istream& operator >> (std::istream in, String& str);
+	friend std::ostream& operator << (std::ostream& out, const String& str);
+	friend std::istream& operator >> (std::istream& in, String& str);
 
 	String(size_t c, size_t size) = delete;
 
@@ -178,7 +178,7 @@ public:
 };
 
 
-std::ostream& operator << (std::ostream out, const String& str)
+std::ostream& operator << (std::ostream& out, const String& str)
 {
 	for (int i = 0; i < str.m_size; i++)
 	{
@@ -188,12 +188,10 @@ std::ostream& operator << (std::ostream out, const String& str)
 	return out;
 }
 
-std::istream& operator >> (std::istream in, String& str)
+std::istream& operator >> (std::istream& in, String& str)
 {
-	for (int i = 0; i < str.m_size; i++)
-	{
-		in >> str.m_str[i];
-	}
+	in >> str.m_str;
+	str.m_size = strlen(str.m_str) + 1;
 
 	return in;
 }
@@ -201,16 +199,17 @@ std::istream& operator >> (std::istream in, String& str)
 int main()
 {
 	String s1("Hello, world!");
-	s1.Print();
+	std::cout << s1 << std::endl;
 	String s2('a', 3);
-	s2.Print();
+	std::cout << s2 << std::endl;
 	String s3("Hello, world!");
 	s3 = s2 + s1 + "hhh";
-	s3.Print();
+	std::cout << s3 << std::endl;
+
 	std::cout << s1[2] << std::endl;
 	std::cout << (s1 > s2) << std::endl;
-	std::cout << s1.find('2') << std::endl;
-	std::cin >> s1[2];
-	std::cout << s1[2] << std::endl;
-	s1.Print();
+	std::cout << s1.find('o') << std::endl;
+
+	std::cin >> s2;
+	std::cout << s2 << std::endl;
 }
