@@ -44,7 +44,7 @@ public:
 
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-	~String()
+	~String() 
 	{
 		if (m_str != nullptr)
 			delete[] m_str;
@@ -180,6 +180,7 @@ public:
 
 std::ostream& operator << (std::ostream& out, const String& str)
 {
+
 	for (int i = 0; i < str.m_size; i++)
 	{
 		out << str.m_str[i];
@@ -190,8 +191,26 @@ std::ostream& operator << (std::ostream& out, const String& str)
 
 std::istream& operator >> (std::istream& in, String& str)
 {
-	in >> str.m_str;
-	str.m_size = strlen(str.m_str) + 1;
+	char* tmp = new char[10000];
+
+	in >> tmp;
+	size_t ind = -1;
+
+	for (int i = 0; i < 10000; i++)
+	{
+		if (tmp[i] == '\0')
+		{
+			ind = i;
+			break;
+		}
+	}
+
+	str.m_size = ind + 1;
+	delete[] str.m_str;
+
+	str.m_str = new char[str.m_size + 1];
+	std::copy(tmp, tmp + ind + 1, str.m_str);
+	delete[] tmp;
 
 	return in;
 }
