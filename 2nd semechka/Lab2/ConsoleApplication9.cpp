@@ -8,7 +8,7 @@
 5.	Операторы + и +=																							     +
 6.	Оператор [] – чтение и изменение элемента																		 +
 7.	Операторы <, >, ==																							     +
-8.	Операторы ввода и вывода в поток(>>, <<)
+8.	Операторы ввода и вывода в поток(>>, <<)																		 +
 9.	Метод find – поиск первого вхождения символа в строку слева														 +
 10.	 Метод length – длина строки																					 +
 11.	 Метод c_str – получить массив char																				 +
@@ -55,7 +55,7 @@ public:
 	String(const String& other) : String(other.m_str) {}
 
 
-	String& operator = (const String other)
+	String& operator = (const String& other)
 	{
 		String tmp = other;
 		std::swap(this->m_size, tmp.m_size);
@@ -81,10 +81,10 @@ public:
 		std::swap(this->m_size, tmp.m_size);
 		std::swap(this->m_str, tmp.m_str);
 
-		return tmp;
+		return *this;
 	}
 
-	String operator + (const String other) const
+	String operator + (const String& other) const
 	{
 		String tmp = *this;
 		tmp += other;
@@ -105,7 +105,7 @@ public:
 		return this->m_str[el];
 	}
 
-	bool operator > (String other)
+	bool operator > (const String& other)
 	{
 		if (this->m_size > other.m_size) { return true; }
 		else if (this->m_size < other.m_size) { return false; }
@@ -122,7 +122,7 @@ public:
 		}
 	}
 
-	bool operator < (String other)
+	bool operator < (const String& other)
 	{
 		if (this->m_size < other.m_size) { return true; }
 		else if (this->m_size > other.m_size) { return false; }
@@ -139,7 +139,7 @@ public:
 		}
 	}
 
-	bool operator == (String other)
+	bool operator == (const String& other)
 	{
 		if (this->m_size != this->m_size) { return false; }
 		for (int i = 0; i < this->m_size; i++)
