@@ -4,13 +4,13 @@
 /*
 Реализуйте шаблонный класс для описания матриц (в частном случае, векторов). Предусмотрите 3 шаблонных параметра: тип элемента, размеры матрицы N и M (N, M <= 3)
 	В составе класса должны быть:
-1.	Конструктор копирования													+
-2.	Оператор присваивания копированием										+
-3.	Оператор ввода и вывода													++
-4.	Операторы +, +=, *, *=													++
-5.	Оператор ++, который увеличивает все элементы матрицы на 1
-6.	Метод вычисления определителя
-7.	Метод или оператор для получения и изменения элемента матрицы по индексу
+1.	Конструктор копирования														+
+2.	Оператор присваивания копированием											+
+3.	Оператор ввода и вывода														++
+4.	Операторы +, +=, *, *=														++++
+5.	Оператор ++, который увеличивает все элементы матрицы на 1					++
+6.	Метод вычисления определителя												+++
+7.	Метод или оператор для получения и изменения элемента матрицы по индексу	:D
 */
 
 
@@ -25,6 +25,8 @@ private:
 
 public:
 
+	template <typename T>
+	friend T Determinant(Matrix<T>& mx);
 	template <typename T>
 	friend std::ostream& operator << (std::ostream& out, const Matrix<T>& mx);
 	template <typename T>
@@ -105,45 +107,88 @@ public:
 
 	Matrix& operator *= (const Matrix& other)
 	{
-		if ((this->m_i != other.m_j)and(this->m_j!=other.m_i))
+		if (this->m_j != other.m_i)
 		{
 			std::cout << "Error! Matrices cannot be multiplied." << std::endl;
 		}
 		else
 		{
-			long long el = 0;
-			long long elsum = 0;
 			
-			this->m_j = other.m_j;
-
+			//this->m_j = other.m_j;
 
 
 			Matrix tmp(this->m_i, this->m_j);
 
-			for (int x = 0; x < this->m_i; x++)
+			for (int i = 0; i < this->m_i; i++)
 			{
-				for (int y = 0; y < this->m_j; y++)
+				for (int j = 0; j < this->m_j; j++)
 				{
-					for (int i = 0; i < this->m_i; i++)
+					tmp.m_mx[i][j] = 0;
+
+					for (int x = 0; x < this->m_j; x++)
 					{
-						for (int j = 0; j < this->m_j; j++)
-						{
-							el = this->m_mx[i][j] * other.m_mx[j][i];		// хьюстон, у нас проблемы
-							elsum += el;
-						}
-						tmp.m_mx[x][y] = elsum;
-						elsum = 0;
+						tmp.m_mx[i][j] += this->m_mx[i][x] * other.m_mx[x][j];		// хьюстон, у нас проблемы
 					}
-
-
 				}
 			}
 
+			tmp.m_i = this->m_i;
+			tmp.m_j = other.m_j;
+
 			std::swap(tmp.m_mx, this->m_mx);
+			std::swap(tmp.m_i, this->m_i);
+			std::swap(tmp.m_j, this->m_j);
+
 		}
 
 		return *this;
 	}
+
+	Matrix operator * (const Matrix& other)
+	{
+		if ((this->m_i != other.m_j) and (this->m_j != other.m_i))
+		{
+			std::cout << "Error! Matrices cannot be multiplied." << std::endl;
+		}
+		else
+		{
+			Matrix tmp = *this;
+			tmp *= other;
+
+			return tmp;
+		}
+	}
+
+	Matrix& operator ++ ()			//префикс
+	{
+		for (int i = 0; i < this->m_i; i++)
+		{
+			for (int j = 0; j < this->m_j; j++)
+			{
+				this->m_mx[i][j] += 1;
+			}
+		}
+
+		return *this;
+
+	}
+
+	Matrix operator ++ (int)		//постфикс
+	{
+
+		Matrix tmp = *this;
+
+		for (int i = 0; i < this->m_i; i++)
+		{
+			for (int j = 0; j < this->m_j; j++)
+			{
+				this->m_mx[i][j] += 1;
+			}
+		}
+
+		return tmp;
+	}
+
 
 };
 
@@ -175,15 +220,42 @@ std::istream& operator >> (std::istream& in, Matrix<T>& mx)
 	return in;
 }
 
+template <typename T>
+T Determinant(Matrix<T>& mx)
+{
+	if (mx.m_i != mx.m_j)
+	{
+		std::cout << "Error! Non-square matrices have no determinant." << std::endl;
+	}
+	else if (mx.m_i == 1)
+	{
+		return mx.m_mx[0][0];
+	}
+	else if (mx.m_i == 2)
+	{
+		return (mx.m_mx[0][0] * mx.m_mx[1][1]) - (mx.m_mx[0][1] * mx.m_mx[1][0]);
+	}
+	else if (mx.m_i == 3)
+	{
+		return (mx.m_mx[0][0] * mx.m_mx[1][1] * mx.m_mx[2][2]) - (mx.m_mx[0][0] * mx.m_mx[1][2] * mx.m_mx[2][1]) - (mx.m_mx[0][1] * mx.m_mx[1][0] * mx.m_mx[2][2]) + (mx.m_mx[0][1] * mx.m_mx[1][2] * mx.m_mx[2][0]) + (mx.m_mx[0][2] * mx.m_mx[1][0] * mx.m_mx[2][1]) - (mx.m_mx[0][2] * mx.m_mx[1][1] * mx.m_mx[2][0]);
+	}
+}
+
 int main()
 {
-	Matrix<int> m(2, 2);
+	Matrix<int> m(2, 3);
 	std::cin >> m;
-	Matrix<int> x(2, 2);
+	Matrix<int> x(3, 1);
 	std::cin >> x;
-	Matrix<int> t = m + x;
+	//Matrix<int> t = m + x;
 	m *= x;
+	/*
 	std::cout << std::endl;
 	std::cout << m << std::endl;
+	t = m * x;
+	std::cout << t++ << std::endl;
 	std::cout << t << std::endl;
+	*/
+	//std::cout << Determinant(m) << std::endl;
+	std::cout << m << std::endl;
 }
