@@ -2,7 +2,7 @@
 
 1.	Вывод в консоль и в файл													+
 2.	Возможность отключения части логов											+
-3.	Логи разного уровня (Info, Debug, Error и т.п.)								+?
+3.	Логи разного уровня (Info, Debug, Error и т.п.)								+
 4.	Вывод времени записи лога													+
 
 Дополнительно можно добавить цвет сообщения, для форматирования вывода можно воспользоваться библиотеками iomanip и ios.			:)
@@ -19,12 +19,14 @@
 
 int main()
 {
-	esp::Log log(esp::LogType::ERROR);
+	esp::Log log1(esp::LogType::ERROR);
+	esp::Log log2(esp::LogType::INFO);
+	esp::Log log3(esp::LogType::DEBUG);
 
 	esp::Log::SetLogPath("log.txt");
 	esp::Log::SetLodLvl(esp::LogLvl::DEBUG);
 
-	esp::Log::Write(log, "Hello, world!");
-	esp::Log::Write(log, "Hello, world!");
-	esp::Log::Write(log, "Hello, world!");
+	esp::Log::Write(log1, "Hello, world!");
+	esp::Log::Write(log2, "Possible impossible");
+	esp::Log::Write(log3, "debUg");
 }

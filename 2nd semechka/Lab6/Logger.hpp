@@ -2,7 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include<chrono>
-
+#include<iomanip>
 
 namespace esp
 {
@@ -31,7 +31,7 @@ namespace esp
 
 		explicit Log(LogType lp) : m_lp(lp)
 		{
-			std::cout << "Constructed" << std::endl;
+			std::cout << "\033[1;30m" << "Constructed" << "\033[0m" << std::endl;
 		}
 
 		static void SetLodLvl(LogLvl loglvl)
@@ -55,36 +55,38 @@ namespace esp
 				auto endt = std::chrono::steady_clock::now();
 				std::chrono::duration<double> elapsed_seconds = endt - startt;
 
-				switch (log.m_lp)                                                          //m_out не работает(???)
+				switch (log.m_lp)
 				{
-					case (LogType::INFO):
-					{
-						std::cerr << "[INFO]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
-						m_out << "[INFO]" << msg << std::endl;
-						break;
-					}
-					case (LogType::DEBUG):
-					{
-						std::cerr << "[DEBUG]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
-						m_out << "[DEBUG]" << msg << std::endl;
-						break;
-					}
-					case (LogType::ERROR):
-					{
-						std::cerr << "[ERROR]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
-						m_out << "[ERROR]" << msg << std::endl;
-						break;
-					}
+				case (LogType::INFO):
+				{
+					std::cerr << "\033[1;34m" << "[INFO]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << "\033[0m" << std::endl;
+					m_out << "[INFO]" << msg << " [INFO] " << "Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
+					break;
 				}
-				
+				case (LogType::DEBUG):
+				{
+					std::cerr << "\033[1;33m" << "[DEBUG]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << "\033[0m" << std::endl;
+					m_out << "[DEBUG]" << msg << " [DEBUG] " << "Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
+					break;
+				}
+				case (LogType::ERROR):
+				{
+					std::cerr << "\033[1;31m" << "[ERROR]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << "\033[0m" << std::endl;
+					m_out << "[ERROR]" << msg << " [ERROR] " << "Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
+					break;
+				}
+				}
+
 			}
 
 			//__________________________Запись в файл___________________________________________________
 			auto endt = std::chrono::steady_clock::now();
 			std::chrono::duration<double> elapsed_seconds = endt - startt;
-			
-			m_out << msg << std::endl;
-			m_out << "Duration: " << 1000*elapsed_seconds.count() << " ms" << std::endl;
+
+			if (m_loglvl == LogLvl::RELEASE)
+			{
+				m_out << msg << "Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
+			}
 
 			m_out.flush();  //вбрасывает всё что есть в буффере в файл
 			//___________________________________________________________________________________________
@@ -92,7 +94,7 @@ namespace esp
 
 		~Log()
 		{
-			std::cout << "Destructed" << std::endl;
+			std::cout << "\033[1;30m" << "Destructed" << "\033[0m" << std::endl;
 		}
 	};
 }
