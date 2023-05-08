@@ -19,7 +19,7 @@
 
 int main()
 {
-	esp::Log log(esp::LogType::DEBUG);
+	esp::Log log(esp::LogType::ERROR);
 
 	esp::Log::SetLogPath("log.txt");
 	esp::Log::SetLodLvl(esp::LogLvl::DEBUG);

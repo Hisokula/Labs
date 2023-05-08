@@ -15,7 +15,8 @@ namespace esp
 	enum class LogType
 	{
 		DEBUG,
-		INFO
+		INFO,
+		ERROR
 	};
 
 	class Log
@@ -54,12 +55,26 @@ namespace esp
 				auto endt = std::chrono::steady_clock::now();
 				std::chrono::duration<double> elapsed_seconds = endt - startt;
 
-				switch (log.m_lp)
+				switch (log.m_lp)                                                          //m_out не работает(???)
 				{
-					case LogType::INFO:
+					case (LogType::INFO):
+					{
 						std::cerr << "[INFO]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
-					case LogType::DEBUG:
+						m_out << "[INFO]" << msg << std::endl;
+						break;
+					}
+					case (LogType::DEBUG):
+					{
 						std::cerr << "[DEBUG]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
+						m_out << "[DEBUG]" << msg << std::endl;
+						break;
+					}
+					case (LogType::ERROR):
+					{
+						std::cerr << "[ERROR]" << msg << " Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
+						m_out << "[ERROR]" << msg << std::endl;
+						break;
+					}
 				}
 				
 			}
