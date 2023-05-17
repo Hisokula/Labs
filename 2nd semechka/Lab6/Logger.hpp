@@ -4,6 +4,8 @@
 #include<chrono>
 #include<iomanip>
 
+static auto startt = std::chrono::steady_clock::now();
+
 namespace esp
 {
 	enum class LogLvl
@@ -46,10 +48,6 @@ namespace esp
 
 		static void Write(Log log, const std::string& msg)
 		{
-
-			static auto startt = std::chrono::steady_clock::now();
-
-
 			if (m_loglvl == LogLvl::DEBUG)
 			{
 				auto endt = std::chrono::steady_clock::now();
@@ -79,7 +77,7 @@ namespace esp
 
 			}
 
-			//__________________________Ηΰοθρό β τΰιλ___________________________________________________
+			//__________________________Π—Π°ΠΏΠΈΡΡ Π² Ρ„Π°ΠΉΠ»___________________________________________________
 			auto endt = std::chrono::steady_clock::now();
 			std::chrono::duration<double> elapsed_seconds = endt - startt;
 
@@ -88,7 +86,7 @@ namespace esp
 				m_out << msg << "Duration: " << 1000 * elapsed_seconds.count() << " ms" << std::endl;
 			}
 
-			m_out.flush();  //βαπΰρϋβΰες βρΈ χςξ ερςό β ασττεπε β τΰιλ
+			m_out.flush();  //Π²Π±Ρ€Π°ΡΡ‹Π²Π°ΠµΡ‚ Π²ΡΡ‘ Ρ‡Ρ‚ΠΎ ΠµΡΡ‚Ρ Π² Π±ΡƒΡ„Ρ„ΠµΡ€Πµ Π² Ρ„Π°ΠΉΠ»
 			//___________________________________________________________________________________________
 		}
 
