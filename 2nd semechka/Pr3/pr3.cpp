@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 
-
 class KinematicSolver
 {
 private:
@@ -25,16 +24,12 @@ public:
     {
         m_L1 = L1;
         Solve(m_x, m_y);
-        m_L3 = sqrt(m_L1 * m_L1 + m_L2 * m_L2 - 2 * m_L1 * m_L2 * cos(m_beta));
-
     }
 
     void Link2(size_t L2)
     {
         m_L2 = L2;
         Solve(m_x, m_y);
-        m_L3 = sqrt(m_L1 * m_L1 + m_L2 * m_L2 - 2 * m_L1 * m_L2 * cos(m_beta));
-
     }
 
     void Print()
@@ -54,9 +49,10 @@ public:
 
 int main()
 {
-    KinematicSolver s1(1, 1, 1, 1);
+    KinematicSolver s1(1, 1, 1, 2);
     s1.Print();
-    s1.Link1(4);
-    s1.Link2(2);
+    float a = 1;
+    s1.Link1(a);
+    s1.Link2(a);
     s1.Print();
 }
