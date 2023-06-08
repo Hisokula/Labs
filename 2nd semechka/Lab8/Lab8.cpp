@@ -10,9 +10,9 @@
 6.	Метод top, чтобы посмотреть верхний элемент стека, но не извлекать его.                                      +
 
 Добавьте обработку некорректных ситуаций через исключения:
-1.	Невозможно выделить необходимый участок памяти под стек (std::bad_alloc).                                    ?
-2.	Невозможно добавить новый элемент в стек (например, std::overflow_error)
-3.	Невозможно извлечь элемент из стека, так как стек пустой (например, std::out_of_range)
+1.	Невозможно выделить необходимый участок памяти под стек (std::bad_alloc).                                    +
+2.	Невозможно добавить новый элемент в стек (например, std::overflow_error)                                     +
+3.	Невозможно извлечь элемент из стека, так как стек пустой (например, std::out_of_range)                       +
 4.	Невозможно посмотреть элемент на вершине стека, так как стек пустой (например, std::logic_error).
 
 */
@@ -23,7 +23,7 @@ class Stack
 private:
     size_t m_size = 0;
     T* m_stack = new T[m_size];
-    int m_top = -1;
+    int m_top = 0;
     bool m_isEmpty = 1;
 
 public:
@@ -45,16 +45,17 @@ public:
         return m_isEmpty;
     }
 
-    void push(T el)
+    void push(const T& el)
     {
-        if (m_top == m_size)
+        if (m_top >= m_size)
         {
-            std::cout << "[Full stack]" << std::endl;
+            throw std::bad_alloc();
+            //std::cout << "[Full stack]" << std::endl;
         }
         else
         {
-            m_top++;
             m_stack[m_top] = el;
+            m_top++;
             m_isEmpty = 0;
         }
     }
@@ -63,12 +64,12 @@ public:
     {
         if (m_isEmpty)
         {
-            std::cout << "[Empty stack]" << std::endl;
+            throw std::out_of_range("[Empty stack!]");
         }
         else
         {
             m_top--;
-            if (m_top == -1)
+            if (m_top == 0)
             {
                 m_isEmpty = 1;
             }
@@ -77,14 +78,13 @@ public:
 
     T top()
     {
-        if (m_top != -1)
+        if (m_isEmpty == 0)
         {
-            return m_stack[m_top];
+            return m_stack[m_top - 1];
         }
         else
         {
-            std::cout << "[Empty stack]" << std::endl;
-            //return reinterpret_cast<T> (nullptr);
+            throw std::logic_error("[Top does not exist!]");
         }
     }
 
@@ -97,12 +97,11 @@ public:
 
 int main()
 {
-    Stack<int> s(5);
+    Stack<int> s(2);
     s.push(3);
     s.push(6);
-    s.push(1);
-    s.pop();
-    s.pop();
-    s.pop();
+    //s.push(1);
+    //s.pop();
+    //s.pop();
     std::cout << s.top() << std::endl; //консоль шалит и выводит какое-то неведомое число при выполнение второго условия. удивительно.
 }
