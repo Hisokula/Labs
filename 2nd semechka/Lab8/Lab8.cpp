@@ -100,8 +100,24 @@ int main()
     Stack<int> s(2);
     s.push(3);
     s.push(6);
-    //s.push(1);
-    //s.pop();
-    //s.pop();
-    std::cout << s.top() << std::endl; //консоль шалит и выводит какое-то неведомое число при выполнение второго условия. удивительно.
+    try
+    {
+        //s.push(1);
+        s.pop();
+        s.pop();
+        s.pop();
+        //std::cout << s.top() << std::endl; //консоль шалит и выводит какое-то неведомое число при выполнение второго условия. удивительно.(╯°益°)╯彡┻━┻
+    }
+    catch (const std::bad_alloc& error)
+    {
+        std::cerr << "Too many elements because of " << error.what() << " >:(" << std::endl;
+    }
+    catch (const std::out_of_range& error)
+    {
+        std::cerr << "You cannot delete elements because of " << error.what() << " >:(" << std::endl;
+    }
+    catch (const std::logic_error& error)
+    {
+        std::cerr << "You cannot refer to the top element because of " << error.what() << " >:(" << std::endl;
+    }
 }
