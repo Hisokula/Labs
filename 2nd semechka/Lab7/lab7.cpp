@@ -1,14 +1,23 @@
-/*
+﻿/*
 Используя наследование и полиморфизм, напишите программу, которая работает с геометрическими фигурами:
 1.	Треугольник
 2.	Прямоугольник
 3.	Круг
+
 Программа должна хранить координаты и размеры фигуры, цвет, уметь вычислять площадь фигуры.
+
 Продемонстрируйте, как ваша программа будет выводить на экран площади всех фигур.
+
 */
 
 #include <iostream>
 
+enum class Shape
+{
+	TRIANGLE,
+	RECTANGLE,
+	CIRCLE
+};
 
 enum class Color
 {
@@ -22,45 +31,77 @@ class Figure
 private:
 
 	Color m_color;
-	size_t m_area;
-	unsigned int m_angles;
-	int* m_coord = new int[0];
+	double m_area = 0;
+	double m_x_coord, m_y_coord;
+	double m_angles;
 
 public:
 
-	Figure(Color color, size_t area, unsigned int angles, int* coord) : m_color(color), m_area(area), m_angles(angles), m_coord(coord) { }
-
-	size_t Area()
+	Figure(Color color, double x_coord, double y_coord, double angles) : m_color(color), m_x_coord(x_coord), m_y_coord(y_coord), m_angles(angles) { }
+	
+	virtual double Area()
 	{
-
 		return m_area;
 	}
-
-
 };
 
-class Triangle : Figure
+class Triangle : public Figure
 {
+protected:
+
+	double m_side_A = 0;
+	double m_side_B = 0;
+	double m_side_C = 0;
+
 public:
 
-	Triangle(Color color, size_t area, int* coord) : Figure(color, area, 3, coord) {}
+	Triangle(Color color, double x_coord, double y_coord, double side_A, double side_B, double side_C) : Figure(color, x_coord, y_coord, 3) 
+	{ m_side_A = side_A, m_side_B = side_B, m_side_C = side_C; }
+	
+	double Area()
+	{
+		double p = (m_side_A + m_side_B + m_side_C) / 2;
+		return sqrt(p * (p - m_side_A) * (p - m_side_B) * (p - m_side_C));
+	}
 };
 
-class Rectangle : Figure
+class Rectangle : public Figure
 {
+protected:
+
+	double m_height = 0;
+	double m_width = 0;
+
 public:
 
-	Rectangle(Color color, size_t area, int* coord) : Figure(color, area, 4, coord) {}
+	Rectangle(Color color, double x_coord, double y_coord, double height, double width) : Figure(color, x_coord, y_coord, 4) { m_height = height, m_width = width; }
+
+	double Area()
+	{
+		return m_height * m_width;
+	}
 };
 
-class Circle : Figure
+class Circle : public Figure
 {
+protected:
+
+	double m_radius = 0;
+
 public:
 
-	Circle(Color color, size_t area, int* coord) : Figure(color, area, 0, coord) {}
+	Circle(Color color, double x_coord, double y_coord, double radius) : Figure(color, x_coord, y_coord, 0) { m_radius = radius; }
+
+	double Area()
+	{
+		return acos(-1) * m_radius * m_radius;
+	}
 };
 
 int main()
 {
-
+	Triangle t(Color::BLUE, 4, 5, 4, 3, 5);
+	Rectangle r(Color::GREEN, 3, 5, 1, 9);
+	Circle c(Color::YELLOW, 1, 2, 5);
+	std::cout << t.Area();
 }
