@@ -49,8 +49,7 @@ public:
     {
         if (m_top >= m_size)
         {
-            throw std::bad_alloc();
-            //std::cout << "[Full stack]" << std::endl;
+            throw std::out_of_range("[Full stack!]");
         }
         else
         {
@@ -97,21 +96,16 @@ public:
 
 int main()
 {
-    Stack<int> s(2);
-    s.push(3);
-    s.push(6);
     try
     {
-        //s.push(1);
+        Stack<int> s(2);
+        s.push(3);
+        s.push(6);
         s.pop();
         s.pop();
         s.pop();
-        //std::cout << s.top() << std::endl; //консоль шалит и выводит какое-то неведомое число при выполнение второго условия. удивительно.(╯°益°)╯彡┻━┻
     }
-    catch (const std::bad_alloc& error)
-    {
-        std::cerr << "Too many elements because of " << error.what() << " >:(" << std::endl;
-    }
+
     catch (const std::out_of_range& error)
     {
         std::cerr << "You cannot delete elements because of " << error.what() << " >:(" << std::endl;
