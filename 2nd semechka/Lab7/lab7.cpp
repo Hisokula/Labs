@@ -12,13 +12,6 @@
 
 #include <iostream>
 
-enum class Shape
-{
-	TRIANGLE,
-	RECTANGLE,
-	CIRCLE
-};
-
 enum class Color
 {
 	BLUE,
@@ -58,7 +51,7 @@ public:
 	Triangle(Color color, double x_coord, double y_coord, double side_A, double side_B, double side_C) : Figure(color, x_coord, y_coord, 3) 
 	{ m_side_A = side_A, m_side_B = side_B, m_side_C = side_C; }
 	
-	double Area()
+	double Area() override
 	{
 		double p = (m_side_A + m_side_B + m_side_C) / 2;
 		return sqrt(p * (p - m_side_A) * (p - m_side_B) * (p - m_side_C));
@@ -76,7 +69,7 @@ public:
 
 	Rectangle(Color color, double x_coord, double y_coord, double height, double width) : Figure(color, x_coord, y_coord, 4) { m_height = height, m_width = width; }
 
-	double Area()
+	double Area() override
 	{
 		return m_height * m_width;
 	}
@@ -92,7 +85,7 @@ public:
 
 	Circle(Color color, double x_coord, double y_coord, double radius) : Figure(color, x_coord, y_coord, 0) { m_radius = radius; }
 
-	double Area()
+	double Area() override
 	{
 		return acos(-1) * m_radius * m_radius;
 	}
