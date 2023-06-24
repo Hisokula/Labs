@@ -59,21 +59,21 @@ public:
 
 	void Reduct(size_t ind, bool el)
 	{
-		char degree = 1;
+		char digit = 1;
 
 		for (int i = 0; i < ind; i++) 
 		{
-			degree *= 2;
+			digit *= 2;
 		}
 		if (el) 
 		{
 			int byte_ind = ind / 8; // находим индекс байта в массиве
-			m_vec[byte_ind] |= degree; // устанавливаем бит, используя оператор побитового ИЛИ с маской degree
+			m_vec[byte_ind] |= digit; // устанавливаем бит, используя оператор побитового ИЛИ с маской digit
 		}
 		else 
 		{
 			int byteIndex = ind / 8; // находим индекс байта в массиве
-			m_vec[byteIndex] &= ~degree; // сбрасываем бит, используя оператор побитового И с инвертированной маской ~degree
+			m_vec[byteIndex] &= ~digit; // сбрасываем бит, используя оператор побитового И с инвертированной маской ~digit
 		}
 	}
 
