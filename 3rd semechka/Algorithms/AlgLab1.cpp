@@ -25,7 +25,7 @@ int main()
 	setlocale(LC_ALL, "ru");
 	std::string str;
 
-
+	bool existence = 1;
 
 	while (str != ".")															// оно считает, что ())( правильно, исправь
 	{
@@ -45,6 +45,7 @@ int main()
 			{
 				if (stack.empty() == 1)
 				{
+					existence = 0;
 					break;
 				}
 				else
@@ -57,7 +58,7 @@ int main()
 			}
 		}
 
-		if (stack.empty() == 1)
+		if ((stack.empty() == 1) and (existence == 1))
 		{
 			std::cout << "Строка существует" << std::endl;
 		}
