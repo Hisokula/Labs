@@ -11,6 +11,10 @@
 
 Пример входа :
 ()[({}())]
+
+())(
+
+((({}[][()])))
 */
 
 #include<iostream>
@@ -27,7 +31,7 @@ int main()
 
 	bool existence = 1;
 
-	while (str != ".")															// оно считает, что ())( правильно, исправь
+	while (str != ".")
 	{
 		std::cout << "Введите строку: " << std::endl;
 
@@ -35,7 +39,7 @@ int main()
 
 		std::vector<char> stack;
 
-		for (int i = 0; i < str.length(); i++)						// ((({}[][()])))
+		for (int i = 0; i < str.length(); i++)
 		{
 			if ((str[i] == '(') or (str[i] == '[') or (str[i] == '{'))
 			{
