@@ -53,6 +53,7 @@ int main()
 					if (int(str[i] - stack.back()) <= 2)
 					{
 						stack.pop_back();
+						existence = 1;
 					}
 				}
 			}
