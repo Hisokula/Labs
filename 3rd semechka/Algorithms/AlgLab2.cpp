@@ -119,44 +119,19 @@ float Solve(std::string str)
 	std::vector<char> stacked_signs;
 	std::vector<float> stacked_numbers;
 
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < splited_str.size(); i++)
 	{
-		if (i == 0)
+		if (SignCheck(splited_str[i][0]))
 		{
-			if ((str[i] >= 48) and (str[i] <= 57))
-			{
-				stacked_numbers.push_back(int(str[i]));
-			}
-			else if (str[i] == 40, 91, 123)
-			{
-				stacked_signs.push_back(str[i]);
-			}
-			else
-			{
-				std::cout << "Некорректная строка." << std::endl;
-			}
-		}
-
-		if ((str[1] >= 48) and (str[1] <= 57))
-		{
-			stacked_numbers.push_back(int(str[i]));
-		}
-		else if (str[i] == 40, 91, 123)
-		{
-			stacked_signs.push_back(str[i]);
-		}
-		else if (str[i] == 41, 93, 125)
-		{
-
+			stacked_signs.push_back(splited_str[i][0]);
 		}
 		else
 		{
-			std::cout << "Некорректная строка." << std::endl;
+			stacked_numbers.push_back(std::stoi(splited_str[i]));
 		}
 	}
-	return 0;
+	return stacked_numbers[0];
 }
-
 
 
 int main()
