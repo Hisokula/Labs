@@ -1,6 +1,6 @@
-﻿/*
-На вход подаётся математическое выражение. Элементы - числа. Операции - "+ - * /". 
-Также есть скобочки. Окончанием выражения служит "=". 
+/*
+На вход подаётся математическое выражение. Элементы - числа. Операции - "+ - * /".
+Также есть скобочки. Окончанием выражения служит "=".
 Программа должна вывести результат выражения
 
 Пример ввода:
@@ -16,6 +16,7 @@
 #include<string>
 #include<Windows.h>
 
+std::vector<std::string> splited_str;
 
 bool Brackets(std::string str)
 {
@@ -64,7 +65,7 @@ bool FoolCheck(std::string str)
 	bool fool = 0;
 	for (int i = 1; i < str.length() - 1; i++)
 	{
-		if (((str[i] == '+') or (str[i] == '-') or (str[i] == '*') or (str[i] == '/') or (str[i] == '=')) and ((str[i + 1] == '+') or (str[i + 1] == '-') or (str[i + 1] == '*') or (str[i + 1] == '/') or (str[i + 1] == '=')))
+		if (((str[i] == '+', '-', '*', '/', '=')) and ((str[i + 1] == '+', '-', '*', '/', '=')))
 		{
 			fool = 1;
 		}
@@ -76,21 +77,42 @@ bool FoolCheck(std::string str)
 	return fool;
 }
 
-std::string SplitTheString(std::string str)
+bool SignCheck(char s)
+{
+	if (((s == '+') or (s == '-') or (s == '*') or (s == '/') or (s == '=') or (s == '(') or (s == ')')))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void SplitTheString(std::string str)
 {
 	std::string tmp;
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < str.length() - 1; i++)
 	{
 		if ((str[i] <= '9') and (str[i] >= '0'))
 		{
 			tmp += str[i];
-		}
-		else()
-		{
 
+			if (SignCheck(str[i + 1]))
+			{
+				splited_str.push_back(tmp);
+				tmp = "";
+			}
+		}
+		else if (SignCheck(str[i]))
+		{
+			std::string t = "";
+			t += str[i];
+			splited_str.push_back(t);
 		}
 	}
 }
+
 
 float Solve(std::string str)
 {
@@ -132,7 +154,10 @@ float Solve(std::string str)
 			std::cout << "Некорректная строка." << std::endl;
 		}
 	}
+	return 0;
 }
+
+
 
 int main()
 {
@@ -144,15 +169,30 @@ int main()
 
 	std::string str;
 	std::cin >> str;
+
+
+	if (Brackets(str) and FoolCheck(str))
+	{
+		SplitTheString(str);
+
+		for (int i = 0; i < splited_str.size(); i++)
+		{
+			std::cout << splited_str[i] << " ";
+		}
+
+
+
+
+	}
+
 	
-	std:: cout << Brackets(str) << std::endl;
-	std::cout << FoolCheck(str) << std::endl;
+
+}
 
 
 
-	// добавить проверку флага FoolCheck и Brackets
 
-	
-	
 
+//std::cout << Brackets(str) << std::endl;
+//std::cout << FoolCheck(str) << std::endl;
 }
