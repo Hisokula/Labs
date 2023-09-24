@@ -1,5 +1,5 @@
 /*
-На вход подаётся математическое выражение. Элементы - числа. Операции - "+ - * /".
+На вход подаётся математическое выражение.Элементы - числа.Операции - "+ - * /".
 Также есть скобочки. Окончанием выражения служит "=".
 Программа должна вывести результат выражения
 
@@ -113,9 +113,33 @@ void SplitTheString(std::string str)
 	}
 }
 
+int Priority(char sign)
+{
+	switch (sign)
+	{
+	case('+'): return 1;
+	case('-'): return 1;
+	case('*'): return 2;
+	case('/'): return 2;
+	default: return 0;
+	}
+}
+
+float Arithmetic(float a, float b, char sign)
+{
+	switch (sign)
+	{
+	case('+'): return a + b;
+	case('-'): return a - b;
+	case('*'): return a * b;
+	case('/'): {if (b != 0) { return a / b; }};
+	}
+}
 
 float Solve(std::string str)
 {
+	SplitTheString(str);
+
 	std::vector<char> stacked_signs;
 	std::vector<float> stacked_numbers;
 
@@ -123,13 +147,31 @@ float Solve(std::string str)
 	{
 		if (SignCheck(splited_str[i][0]))
 		{
+			//stacked_signs.push_back(splited_str[i][0]);
+			if ((stacked_signs.size() >= 2) and (Priority(stacked_signs[i]) >= Priority(stacked_signs[i - 1])))
+			{
+				stacked_numbers.push_back(Arithmetic(stacked_numbers[stacked_numbers.size() - 1], stacked_numbers[stacked_numbers.size()], stacked_signs[i]));
+				stacked_numbers.erase(stacked_numbers.end() - 2);
+				stacked_numbers.erase(stacked_numbers.end() - 2);
+			}
+			
+
 			stacked_signs.push_back(splited_str[i][0]);
 		}
 		else
 		{
 			stacked_numbers.push_back(std::stoi(splited_str[i]));
 		}
+
 	}
+	std::cout << stacked_numbers.size();
+	if (stacked_signs.size() != 0)
+	{
+		stacked_numbers.push_back(Arithmetic(stacked_numbers[stacked_numbers.size() - 1], stacked_numbers[stacked_numbers.size()], stacked_signs[0]));
+		stacked_numbers.erase(stacked_numbers.end() - 2);
+		stacked_numbers.erase(stacked_numbers.end() - 2);
+	}
+
 	return stacked_numbers[0];
 }
 
@@ -148,19 +190,15 @@ int main()
 
 	if (Brackets(str) and FoolCheck(str))
 	{
-		SplitTheString(str);
+		std::cout << Solve(str) << std::endl;
 
-		for (int i = 0; i < splited_str.size(); i++)
-		{
-			std::cout << splited_str[i] << " ";
-		}
 
 
 
 
 	}
 
-	
+
 
 }
 
@@ -170,4 +208,7 @@ int main()
 
 //std::cout << Brackets(str) << std::endl;
 //std::cout << FoolCheck(str) << std::endl;
-}
+
+/*
+
+*/
