@@ -121,6 +121,7 @@ int Priority(char sign)
 	case('-'): return 1;
 	case('*'): return 2;
 	case('/'): return 2;
+	case('('): return -1;
 	default: return 0;
 	}
 }
@@ -147,16 +148,42 @@ float Solve(std::string str)
 	{
 		if (SignCheck(splited_str[i][0]))
 		{
-			//stacked_signs.push_back(splited_str[i][0]);
-			if ((stacked_signs.size() >= 2) and (Priority(stacked_signs[i]) >= Priority(stacked_signs[i - 1])))
+
+			if ((stacked_signs.size() >= 2) and (Priority(stacked_signs[i]) <= Priority(stacked_signs[i - 1])))
 			{
+				stacked_signs.push_back(splited_str[i][0]);
 				stacked_numbers.push_back(Arithmetic(stacked_numbers[stacked_numbers.size() - 1], stacked_numbers[stacked_numbers.size()], stacked_signs[i]));
 				stacked_numbers.erase(stacked_numbers.end() - 2);
 				stacked_numbers.erase(stacked_numbers.end() - 2);
+				stacked_signs.erase(stacked_signs.end() - 1);
 			}
-			
+			else if ((stacked_signs.size() >= 2) and (Priority(stacked_signs[i]) > Priority(stacked_signs[i - 1])))
+			{
+				stacked_signs.push_back(splited_str[i][0]);
+			}
+			else if (Priority(splited_str[i][0]) == -1)
+			{
+				stacked_signs.push_back(splited_str[i][0]);
+			}
+			else if (Priority(splited_str[i][0]) == -2)
+			{
+				while (stacked_signs[stacked_signs.size()] != '(')
+				{
+					if (stacked_numbers[stacked_numbers.size()] == 0)
+					{
+						break;
+					}
+					stacked_numbers.push_back(Arithmetic(stacked_numbers[stacked_numbers.size() - 1], stacked_numbers[stacked_numbers.size()], stacked_signs[i]));
+					stacked_numbers.erase(stacked_numbers.end() - 2);
+					stacked_numbers.erase(stacked_numbers.end() - 2);
+					stacked_signs.erase(stacked_signs.end() - 1);
+				}
+			}
+			else
+			{
+				stacked_signs.push_back(splited_str[i][0]);
+			}
 
-			stacked_signs.push_back(splited_str[i][0]);
 		}
 		else
 		{
@@ -164,15 +191,21 @@ float Solve(std::string str)
 		}
 
 	}
-	std::cout << stacked_numbers.size();
-	if (stacked_signs.size() != 0)
+	float res = 0;
+	//
+	std::cout << "size: " << stacked_numbers.size() << std::endl;
+	std::cout << "size: " << stacked_signs.size() << std::endl;
+	//
+	int size = stacked_numbers.size();
+	while ( size != 1)
 	{
-		stacked_numbers.push_back(Arithmetic(stacked_numbers[stacked_numbers.size() - 1], stacked_numbers[stacked_numbers.size()], stacked_signs[0]));
-		stacked_numbers.erase(stacked_numbers.end() - 2);
-		stacked_numbers.erase(stacked_numbers.end() - 2);
+		res = (Arithmetic(stacked_numbers[size], stacked_numbers[size - 1], stacked_signs[stacked_signs.size()]));
+		stacked_signs.pop_back();
+		size--;
+
 	}
 
-	return stacked_numbers[0];
+	return res;
 }
 
 
@@ -185,20 +218,21 @@ int main()
 	std::cout << "Введите строку: " << std::endl;
 
 	std::string str;
-	std::cin >> str;
 
-
-	if (Brackets(str) and FoolCheck(str))
+	while (str != "0")
 	{
-		std::cout << Solve(str) << std::endl;
+		std::cin >> str;
 
 
+		if (Brackets(str) and FoolCheck(str))
+		{
+			std::cout << Solve(str) << std::endl;
 
+		}
 
-
+		splited_str.clear();
 	}
-
-
+	
 
 }
 
