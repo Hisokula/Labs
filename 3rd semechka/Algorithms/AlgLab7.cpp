@@ -30,9 +30,6 @@ void Sort(std::vector<int>& v)
         std::cout << "Sorting:" << std::endl;
         Outp(v);
     }
-
-    std::cout << "[Sorted]: " << std::endl;
-    Outp(v);
 }
 
 int main()
@@ -54,6 +51,8 @@ int main()
 
     Sort(v);
 
+    std::cout << "[Sorted]: " << std::endl;
+    Outp(v);
 }
 
 // 8 
