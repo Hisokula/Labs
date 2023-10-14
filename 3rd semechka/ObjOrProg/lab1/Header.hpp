@@ -2,83 +2,83 @@
 #include<functional>
 #include<iostream>
 
-class Differentiation //базовый класс
+class Differentiation //Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ
 {
 protected:
-	double m_x0 = 0; // точка
-	double m_dx = 0; // шаг
-	double m_accuracy = 0; // точность
+	double m_x0 = 0; // С‚РѕС‡РєР°
+	double m_dx = 0; // С€Р°Рі
+	double m_accuracy = 0; // С‚РѕС‡РЅРѕСЃС‚СЊ
 
-	virtual double DiffCalc(const std::function<double(double)>& f, double x0) // абстрактная функция для взятия производной
+	virtual double DiffCalc(const std::function<double(double)>& f, double x0) // Р°Р±СЃС‚СЂР°РєС‚РЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РІР·СЏС‚РёСЏ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 	{
 		return 0;
 	}
 
 public:
-	void Set_dx(double dx) // сеттер шага
+	void Set_dx(double dx) // СЃРµС‚С‚РµСЂ С€Р°РіР°
 	{
 		dx = m_dx;
 	}
-	void Set_x0(double x0) // сеттер точки
+	void Set_x0(double x0) // СЃРµС‚С‚РµСЂ С‚РѕС‡РєРё
 	{
 		x0 = m_x0;
 	}
-	double GetAccuracy() const // геттер точности
+	double GetAccuracy() const // РіРµС‚С‚РµСЂ С‚РѕС‡РЅРѕСЃС‚Рё
 	{
 		return m_accuracy;
 	}
-	double Get_dx() const // геттер шага
+	double Get_dx() const // РіРµС‚С‚РµСЂ С€Р°РіР°
 	{
 		return m_dx;
 	}
-	Differentiation(double x0, double dx) // конструктор объекта базового класса (используется в классах-наследниках)
+	Differentiation(double x0, double dx) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РѕР±СЉРµРєС‚Р° Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР° (РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РєР»Р°СЃСЃР°С…-РЅР°СЃР»РµРґРЅРёРєР°С…)
 	{
 		m_x0 = x0;
 		m_dx = dx;
 	}
 };
 
-class LeftDiff : public Differentiation // класс для нахождения левой производной
+class LeftDiff : public Differentiation // РєР»Р°СЃСЃ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ Р»РµРІРѕР№ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 {
 public:
-	double DiffCalc(const std::function<double(double)>& f, double x0) override // функция для нахождения производной класса-наследника
+	double DiffCalc(const std::function<double(double)>& f, double x0) override // С„СѓРЅРєС†РёСЏ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ РїСЂРѕРёР·РІРѕРґРЅРѕР№ РєР»Р°СЃСЃР°-РЅР°СЃР»РµРґРЅРёРєР°
 	{
 		return static_cast<double>(f(m_x0) - f(m_x0 - m_dx)) / m_dx;
 	}
-	LeftDiff(double x0, double dx) : Differentiation(x0, dx) // конструктор класса-наследника
+	LeftDiff(double x0, double dx) : Differentiation(x0, dx) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°-РЅР°СЃР»РµРґРЅРёРєР°
 	{
 		m_x0 = x0;
 		m_dx = dx;
-		m_accuracy = m_dx; //расчёт точности
+		m_accuracy = m_dx; //СЂР°СЃС‡С‘С‚ С‚РѕС‡РЅРѕСЃС‚Рё
 	}
 };
 
-class RightDiff : public Differentiation // класс для нахождения правой производной
+class RightDiff : public Differentiation // РєР»Р°СЃСЃ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ РїСЂР°РІРѕР№ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 {
 public:
-	double DiffCalc(const std::function<double(double)>& f, double x0) override // функция для нахождения производной класса-наследника
+	double DiffCalc(const std::function<double(double)>& f, double x0) override // С„СѓРЅРєС†РёСЏ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ РїСЂРѕРёР·РІРѕРґРЅРѕР№ РєР»Р°СЃСЃР°-РЅР°СЃР»РµРґРЅРёРєР°
 	{
 		return static_cast<double>(f(m_x0 + m_dx) - f(m_x0)) / m_dx;
 	}
-	RightDiff(double x0, double dx) : Differentiation(x0, dx) // конструктор класса-наследника
+	RightDiff(double x0, double dx) : Differentiation(x0, dx) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°-РЅР°СЃР»РµРґРЅРёРєР°
 	{
 		m_x0 = x0;
 		m_dx = dx;
-		m_accuracy = m_dx; //расчёт точности
+		m_accuracy = m_dx; //СЂР°СЃС‡С‘С‚ С‚РѕС‡РЅРѕСЃС‚Рё
 	}
 };
 
-class CentralDiff : public Differentiation // класс для нахождения средней производной
+class CentralDiff : public Differentiation // РєР»Р°СЃСЃ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ СЃСЂРµРґРЅРµР№ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 {
 public:
-	double DiffCalc(const std::function<double(double)>& f, double x0) override // функция для нахождения производной класса-наследника
+	double DiffCalc(const std::function<double(double)>& f, double x0) override // С„СѓРЅРєС†РёСЏ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ РїСЂРѕРёР·РІРѕРґРЅРѕР№ РєР»Р°СЃСЃР°-РЅР°СЃР»РµРґРЅРёРєР°
 	{
 		return static_cast<double>(f(m_x0 + m_dx) - f(m_x0 - m_dx)) / (2 * m_dx);
 	}
-	CentralDiff(double x0, double dx) : Differentiation(x0, dx) // конструктор класса-наследника
+	CentralDiff(double x0, double dx) : Differentiation(x0, dx) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°-РЅР°СЃР»РµРґРЅРёРєР°
 	{
 		m_x0 = x0;
 		m_dx = dx;
-		m_accuracy = m_dx * m_dx; //расчёт точности
+		m_accuracy = m_dx * m_dx; //СЂР°СЃС‡С‘С‚ С‚РѕС‡РЅРѕСЃС‚Рё
 	}
 };
