@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<string>
 #include<math.h>
+#include<queue>
 
 void Outp(std::vector<int>& v)
 {
@@ -21,17 +22,28 @@ void Sort(std::vector<int>& v)
     int max = str_max.length();
 
     int base = 10;
-    std::vector<std::vector<int>> bins;
+    std::vector<std::vector<int>> bins(base, std::vector<int>());
+    std::queue<int> q;
 
     for (int i = 0; i < max; i++)
     {
         for (int j = 0; j < v.size(); j++)
         {
-            int digit = (v[j] / int(pow(base, i))) % base; //??????????????
-            bins[digit].push_back(j);
+            int digit = (v[j] / static_cast<int>(pow(base, i))) % base; //??????????????
+            bins[digit].push_back(v[j]);
         }
 
-        // вот тут херня, разберись
+        v.clear();
+
+        for (const auto& q : bins)
+        {
+            v.insert(v.end(), q.begin(), q.end());
+        }
+
+        std::cout << "Iteration " << i + 1 << ": " << std::endl;
+        Outp(v);
+        
+        bins.assign(base, std::vector<int>());
     }
 }
 
@@ -58,5 +70,17 @@ int main()
     Outp(v);
 }
 
-// 8 
-// 6 5 7 1 2 4 3 8
+/*
+10
+
+12412
+23
+23623461
+32
+1
+5
+632
+4
+25
+434
+*/
