@@ -148,15 +148,15 @@ void FillTree(std::string& str, int& i, Tree*& root)
 }
 
 // прямой обход дерева
-void PASS(Tree* v)   
+void Pass(Tree* v)   
 {
     if (v == nullptr)
     {
         return;
     }
-    PASS(v->left);
+    Pass(v->left);
     std::cout << v->data << std::endl;
-    PASS(v->right);
+    Pass(v->right);
 }
 
 // поиск элемента
