@@ -120,7 +120,7 @@ int main()
 	in.close();
 
 	out.open("out.txt", std::ios::out | std::ios::trunc);
-	out << "Key | Index | Element\n";
+	out << "Index | Key | Element\n";
 	int i = 0;
 	for (i; i < table.GetSize() - 1; i++)
 	{
