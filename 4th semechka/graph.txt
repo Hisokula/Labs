@@ -3,3 +3,43 @@
 0 2 0 4 5
 0 3 4 0 6
 0 0 5 6 0
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <limits.h>
+
+using namespace std;
+
+int min_cost(int a, int b, int x, int y, int z) {
+    int max_size = max(a, b) + 6;
+    vector<int> dp(max_size, INT_MAX);
+    
+    dp[a] = 0; // Стоимость достижения исходного числа a равна 0
+    
+    for (int i = a; i < max_size; ++i) {
+        if (dp[i] == INT_MAX) continue;
+        
+        if (i + 1 < max_size) {
+            dp[i + 1] = min(dp[i + 1], dp[i] + x);
+        }
+        if (i * 2 < max_size) {
+            dp[i * 2] = min(dp[i * 2], dp[i] + y);
+        }
+        if (i - 5 >= 0) {
+            dp[i - 5] = min(dp[i - 5], dp[i] + z);
+        }
+    }
+    
+    return dp[b];
+}
+
+int main() {
+    int a, b, x, y, z;
+    cout << "Введите a, b, x, y, z: ";
+    cin >> a >> b >> x >> y >> z;
+    
+    int result = min_cost(a, b, x, y, z);
+    cout << "Минимальная стоимость достижения числа " << b << " из числа " << a << " равна " << result << endl;
+    
+    return 0;
+}
