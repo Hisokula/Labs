@@ -43,3 +43,93 @@ int main() {
     
     return 0;
 }
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <climits>
+
+using namespace std;
+
+// Структура для хранения состояния в очереди с приоритетом
+struct State {
+    int value;
+    int cost;
+    bool operator>(const State& other) const {
+        return cost > other.cost;
+    }
+};
+
+int findMinCost(int a, int b, int x, int y, int z) {
+    // Создаем приоритетную очередь (минимальная куча)
+    priority_queue<State, vector<State>, greater<State>> pq;
+    unordered_map<int, int> dist; // Для хранения минимальных затрат до каждой вершины
+
+    // Инициализация
+    pq.push({a, 0});
+    dist[a] = 0;
+
+    // Основной цикл Дейкстры
+    while (!pq.empty()) {
+        State current = pq.top();
+        pq.pop();
+
+        int currentValue = current.value;
+        int currentCost = current.cost;
+
+        // Если достигли целевого значения
+        if (currentValue == b) {
+            return currentCost;
+        }
+
+        // Проверка и обновление соседних вершин
+        vector<pair<int, int>> neighbors = {
+            {currentValue + 1, x},
+            {currentValue * 2, y},
+            {currentValue - 5, z}
+        };
+
+        for (const auto& neighbor : neighbors) {
+            int nextValue = neighbor.first;
+            int nextCost = currentCost + neighbor.second;
+
+            // Пропускаем невалидные состояния (например, отрицательные числа)
+            if (nextValue < 0 || nextValue > b * 2) {
+                continue;
+            }
+
+            // Если нашли более дешевый путь до вершины
+            if (dist.find(nextValue) == dist.end() || nextCost < dist[nextValue]) {
+                dist[nextValue] = nextCost;
+                pq.push({nextValue, nextCost});
+            }
+        }
+    }
+
+    // Если не удалось найти путь
+    return -1;
+}
+
+int main() {
+    int a, b, x, y, z;
+    cout << "Введите начальное число a: ";
+    cin >> a;
+    cout << "Введите целевое число b: ";
+    cin >> b;
+    cout << "Введите стоимость операции +1 (x): ";
+    cin >> x;
+    cout << "Введите стоимость операции *2 (y): ";
+    cin >> y;
+    cout << "Введите стоимость операции -5 (z): ";
+    cin >> z;
+
+    int minCost = findMinCost(a, b, x, y, z);
+    if (minCost != -1) {
+        cout << "Минимальная стоимость достижения числа " << b << " из числа " << a << " составляет: " << minCost << endl;
+    } else {
+        cout << "Невозможно достичь числа " << b << " из числа " << a << endl;
+    }
+
+    return 0;
+}
