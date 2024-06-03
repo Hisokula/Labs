@@ -25,7 +25,7 @@ bool subsetSumGreedy(const std::vector<int>& nums, int target, std::vector<int>&
 }
 
 int main() {
-    // Пример данных: набор чисел и целевая сумма
+    // Набор чисел и целевая сумма
     std::vector<int> nums = { 3, 34, 4, 12, 5, 2 };
     int target = 9;
 
@@ -43,6 +43,4 @@ int main() {
     else {
         std::cout << "No subset with the given sum found." << std::endl;
     }
-
-    return 0;
 }
