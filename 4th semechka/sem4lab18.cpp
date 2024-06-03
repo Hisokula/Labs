@@ -5,7 +5,7 @@
 #include <algorithm>
 
 // Функция для решения задачи о суммах подмножеств с использованием жадного алгоритма
-bool subsetSumGreedy(const std::vector<int>& nums, int target, std::vector<int>& result) {
+bool Greedy(const std::vector<int>& nums, int target, std::vector<int>& result) {
     // Сортируем элементы в порядке убывания
     std::vector<int> sorted_nums = nums;
     std::sort(sorted_nums.rbegin(), sorted_nums.rend());
@@ -33,7 +33,7 @@ int main() {
     std::vector<int> result;
 
     // Вызов функции для поиска суммы подмножества
-    if (subsetSumGreedy(nums, target, result)) {
+    if (Greedy(nums, target, result)) {
         std::cout << "Subset with the given sum found: ";
         for (int num : result) {
             std::cout << num << " ";
