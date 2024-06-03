@@ -13,8 +13,8 @@ int knapsack(int W, const std::vector<int>& weights, const std::vector<int>& val
     for (int i = 1; i <= n; ++i) {
         for (int w = 0; w <= W; ++w) {
             if (weights[i - 1] <= w) {
-                dp[i][w] = std::max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
-            }
+                dp[i][w] = std::max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]); // мы выбираем максимум из цены оптимального набора предметов на вес w из вещей без учета i-той вещи 
+            }  //   и цены i-й вещи, сложенной с ценой оптимальным наборам на вес, осташийся после добавления после i-ой вещи, так образуя оптимальный по цене набор на вес w (конечный)
             else {
                 dp[i][w] = dp[i - 1][w];
             }
